@@ -11,5 +11,13 @@ const pool = new Pool({
     db_password: process.env.DB_PASSWORD
 })
 
+pool.conect().then(()=>console.log("Banco postgreSQL conectado"))
+.catch(err=>(console.loh("Banco não conetado, contate o suporte")));
+
+pool.query(`
+    SET search_path TO netflix, public`);
+
+    module.exports=pool;
+
 
     
