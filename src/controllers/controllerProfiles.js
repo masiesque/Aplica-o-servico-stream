@@ -8,10 +8,10 @@ const createProfile= async (req,res)=>
     try{
         const{name,avatar,kids,language} = req.body;
 
-        const result = await pool.query(`INSERT INTO netflix.profiles (profile_name,avatar,kids,language)
-            VALUES($1,%2,$3,$4)
+        const result = await pool.query(`INSERT INTO netflix.profiles (id_user,profile_name,avatar,kids,language)
+            VALUES($1,%2,$3,$4,$5)
             RETURNING profile_name,avatar,kids,language`
-        [name,avatar,kids,language])
+        [req.user.id, name,avatar,kids,language])
 
         res.status(201).json(result.rows[0]);
 
@@ -30,9 +30,9 @@ const getAllProfilesInOneUser = async(req,res)=>{
             `,[req.user.id]);
     }
 
-    catch
+    catch(err)
     {
-
+        res.status(500),json({erro:err.message});
     }
 
 
